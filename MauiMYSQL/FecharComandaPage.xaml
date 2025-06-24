@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiMYSQL.FecharComandaPage"
+             Title="Fechamento da Comanda">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label x:Name="lblTituloComanda"
+                   Text="Comanda: "
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <CollectionView x:Name="lstConsumos">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" Margin="0,5">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding NomeProduto}" FontAttributes="Bold" />
+                                <Label Text="{Binding quantidade, StringFormat='Quantidade: {0}'}" />
+                                <Label Text="{Binding valor_unitario, StringFormat='Valor Unitário: R$ {0:F2}'}" />
+                                <Label Text="{Binding Subtotal, StringFormat='Subtotal: R$ {0:F2}'}" FontAttributes="Italic" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label x:Name="lblTotal"
+                   Text="Total: R$ 0,00"
+                   FontAttributes="Bold"
+                   FontSize="Medium"
+                   HorizontalOptions="Center"
+                   Margin="0,15,0,0" />
+
+            <Label Text="Forma de Pagamento" FontAttributes="Bold" />
+            <Picker x:Name="pickerFormaPagamento">
+                <Picker.Items>
+                    <x:String>Dinheiro</x:String>
+                    <x:String>Cartão de Crédito</x:String>
+                    <x:String>PIX</x:String>
+                </Picker.Items>
+            </Picker>
+
+            <Button Text="Finalizar Pagamento"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White"
+                    Clicked="OnFinalizarPagamento" />
+
+            <Label x:Name="lblStatus"
+                   TextColor="DarkRed"
+                   FontAttributes="Italic"
+                   HorizontalTextAlignment="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

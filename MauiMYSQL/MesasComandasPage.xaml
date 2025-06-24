@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiMYSQL.MesasComandasPage"
+             Title="Comandas do Bar">
+
+    <VerticalStackLayout Spacing="10" Padding="20">
+
+        <Label Text="Gerenciamento de Comandas"
+               FontSize="Large"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Label Text="Nome da Comanda ou Mesa (Ex: Mesa 5, Família Silva)" />
+        <Entry x:Name="txtNomeComanda"
+               Placeholder="Digite o nome..."
+               Keyboard="Text" />
+
+        <Label Text="Observações (opcional)" />
+        <Editor x:Name="txtObservacoes"
+                AutoSize="TextChanges"
+                Placeholder="Anotações sobre a comanda" />
+
+        <Button Text="Abrir Comanda"
+                Clicked="OnAbrirComandaClicked"
+                BackgroundColor="#0077CC"
+                TextColor="White" />
+
+        <Label Text="Comandas Abertas"
+               FontAttributes="Bold"
+               FontSize="Medium"
+               Margin="0,20,0,0" />
+
+        <CollectionView x:Name="lstMesasComandas"
+                        SelectionMode="None"
+                        HeightRequest="300">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="LightGray"
+                           CornerRadius="8"
+                           Padding="10"
+                           Margin="0,5"
+                           BackgroundColor="#F5F5F5">
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Tapped="OnComandaTocada" />
+                        </Frame.GestureRecognizers>
+
+                        <VerticalStackLayout>
+                            <Label Text="{Binding nome_comanda}"
+                                   FontSize="Medium"
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding data_abertura, StringFormat='Abertura: {0:dd/MM/yyyy HH:mm}'}"
+                                   FontSize="Small"
+                                   TextColor="Gray" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label x:Name="lblStatus"
+               TextColor="DarkRed"
+               HorizontalTextAlignment="Center"
+               FontAttributes="Italic"
+               Margin="0,20,0,10" />
+
+    </VerticalStackLayout>
+</ContentPage>
+
+
+
