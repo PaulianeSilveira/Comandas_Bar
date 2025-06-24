@@ -2,7 +2,7 @@
 
 ## Contexto Acadêmico
 
-Este projeto foi desenvolvido como um **trabalho individual** para as disciplinas de **Laboratório de Programação para Dispositivos Móveis** (com objetivo de avaliação e recuperação) e **Computação em Nuvem I** (como avaliação do 2º bimestre).
+Este projeto foi desenvolvido como um **trabalho individual** para as disciplinas de **Laboratório de Programação para Dispositivos Móveis** e **Computação em Nuvem I**.
 
 **Enunciado do Trabalho:**
 Criar um aplicativo mobile que realize a inclusão de dados e uma consulta, retornando os dados de um banco de dados MySQL hospedado em uma máquina virtual Azure. O desenvolvimento foi feito utilizando .NET MAUI, baseando-se no projeto de referência disponibilizado em sala de aula (`https://github.com/alessandro-fukuta/MauiMYSQL.git`). O tema do projeto foi escolhido como "Gerenciamento de Comandas para Bar".
