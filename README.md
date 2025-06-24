@@ -2,7 +2,7 @@
 
 ## Contexto Acadêmico
 
-Este projeto foi desenvolvido como um **trabalho individual** para as disciplinas de **Laboratório de Programação para Dispositivos Móveis** e **Computação em Nuvem I**.
+Este projeto foi desenvolvido como um **trabalho individual** para as disciplinas de **Laboratório de Programação para Dispositivos Móveis** (com objetivo de avaliação e recuperação) e **Computação em Nuvem I** (como avaliação do 2º bimestre).
 
 **Enunciado do Trabalho:**
 Criar um aplicativo mobile que realize a inclusão de dados e uma consulta, retornando os dados de um banco de dados MySQL hospedado em uma máquina virtual Azure. O desenvolvimento foi feito utilizando .NET MAUI, baseando-se no projeto de referência disponibilizado em sala de aula (`https://github.com/alessandro-fukuta/MauiMYSQL.git`). O tema do projeto foi escolhido como "Gerenciamento de Comandas para Bar".
@@ -118,18 +118,31 @@ Antes de configurar e rodar o projeto, certifique-se de ter o seguinte instalado
     * Selecione **"Gerenciar Pacotes NuGet..."**.
     * Vá para a aba **"Procurar"** (Browse), digite `MySqlConnector` e clique em **"Instalar"**.
 
-3.  **Configure a String de Conexão:**
+3.  **Configure a Conexão no `Models/Conecta.cs`:**
+    * Esta classe é a base para a conexão com o banco de dados, centralizando a lógica de conexão.
     * Abra o arquivo `Models/Conecta.cs`.
+    * Certifique-se de que a linha `using MySqlConnector;` está no topo.
     * Atualize a linha `connectionString` com os dados do seu servidor MySQL:
         ```csharp
         public class Conecta
         {
+            // Variáveis e objetos para gerenciar a conexão e comandos SQL
+            protected MySql.Data.MySqlClient.MySqlConnection Conn;
+            protected MySql.Data.MySqlClient.MySqlCommand Cmd;
+            protected MySql.Data.MySqlClient.MySqlDataReader Dr;
+            protected string StrQuery = string.Empty;
+            // ATENÇÃO: SUBSTITUA COM SEUS DADOS REAIS DO BANCO DE DADOS
             protected string connectionString = "Server=SEU_SERVIDOR_MYSQL;Port=3306;Database=bar_caixa_db;Uid=SEU_USUARIO;Pwd=SUA_SENHA;";
             // Exemplo para MySQL em VM Azure: "Server=SEU_IP_PUBLICO_AZURE;Port=3306;Database=bar_caixa_db;Uid=SEU_USUARIO_MYSQL;Pwd=SUA_SENHA_MYSQL;";
             // Lembre-se de configurar as regras de firewall na VM Azure para permitir a conexão.
+
+            // Métodos Conexao() e FechaConexao() também devem estar nesta classe.
+            protected bool Conexao() { /* ... */ return true; }
+            protected void FechaConexao() { /* ... */ }
         }
         ```
-    * **Importante:** Garanta que todos os seus arquivos de modelo (`Consumos.cs`, `MesasComandas.cs`, `Pagamentos.cs`, `Produtos.cs`) herdem de `Conecta` (ex: `public class Consumos : Conecta`) e tenham `using MySql.Data.MySqlClient;` no topo.
+    * **Importante:** Todas as suas outras classes de modelo (`Consumos.cs`, `MesasComandas.cs`, `Pagamentos.cs`, `Produtos.cs`) devem **herdar** de `Conecta` (ex: `public class Consumos : Conecta`). Elas devem utilizar os membros e métodos definidos em `Conecta` (como `Conn`, `Cmd`, `Dr`, `Conexao()`, `FechaConexao()`) para interagir com o banco de dados.
+    * Garanta que apenas `using MySqlConnector;` esteja no topo desses arquivos de modelo.
 
 4.  **Limpar e Recompilar a Solução:**
     * No Visual Studio, vá em **"Compilar" (Build)** > **"Limpar Solução" (Clean Solution)**.
@@ -145,15 +158,10 @@ Antes de configurar e rodar o projeto, certifique-se de ter o seguinte instalado
 
 ## Estrutura do Projeto
 
-* **`MainPage.xaml` / `MainPage.xaml.cs`**: Tela principal para listagem e abertura de comandas.
-* **`ConsumosPage.xaml` / `ConsumosPage.xaml.cs`**: Tela para adicionar novos consumos a uma comanda específica.
-* **`FecharComandaPage.xaml` / `FecharComandaPage.xaml.cs`**: Tela para visualizar o extrato da comanda e realizar o pagamento.
-* **`Models/`**: Pasta que contém as classes de modelo e lógica de acesso ao banco de dados:
-    * `Conecta.cs`: Classe base para a string de conexão MySQL.
-    * `MesasComandas.cs`: Modelo e operações CRUD para a tabela `MesasComandas`.
-    * `Produtos.cs`: Modelo e operações CRUD para a tabela `Produtos`.
-    * `Consumos.cs`: Modelo e operações CRUD para a tabela `Consumos`.
-    * `Pagamentos.cs`: Modelo e operações CRUD para a tabela `Pagamentos`.
+* **`MainPage.xaml` / `MainPage.xaml.cs`**: Tela principal do aplicativo.
+* **`ConsumosPage.xaml` / `ConsumosPage.xaml.cs`**: Tela para adicionar consumos às comandas.
+* **`FecharComandaPage.xaml` / `FecharComandaPage.xaml.cs`**: Tela para finalizar o pagamento de uma comanda.
+* **`Models/`**: Pasta que contém as classes de modelo e lógica de acesso ao banco de dados (`Conecta.cs`, `MesasComandas.cs`, `Produtos.cs`, `Consumos.cs`, `Pagamentos.cs`).
 
 ## Melhorias Futuras (Opcional)
 
